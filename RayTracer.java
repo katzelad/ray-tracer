@@ -47,9 +47,9 @@ public class RayTracer {
 				Color mycol = m_scene.getColor(x, y);
 
 				// TO-ADD: set the image color for this pixel.
-				int r = (int) (255 * mycol.r);
-				int g = (int) (255 * mycol.g);
-				int b = (int) (255 * mycol.b);
+				int r = mycol.getRed();
+				int g = mycol.getGreen();
+				int b = mycol.getBlue();
 
 				// clamp values to [0,255]
 				r &= 0xFF;

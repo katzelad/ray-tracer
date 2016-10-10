@@ -24,6 +24,25 @@ public class SceneParser extends Parser {
 		return super.setParameter(name, args);
 	}
 
+	private Material parseMaterial() {
+		String type = params.containsKey("mtl-type") ? params.get("mtl-type")[0] : "flat";
+		Color specular = params.containsKey("mtl-specular") ? new Color(params.get("mtl-specular"))
+				: new Color(1, 1, 1);
+		Color emission = params.containsKey("mtl-emission") ? new Color(params.get("mtl-emission"))
+				: new Color(0, 0, 0);
+		Color ambient = params.containsKey("mtl-ambient") ? new Color(params.get("mtl-ambient"))
+				: new Color(0.1, 0.1, 0.1);
+		double shininess = params.containsKey("mtl-shininess") ? Double.parseDouble(params.get("mtl-shininess")[0])
+				: 100;
+		switch (type) {
+		case "flat":
+			Color diffuse = params.containsKey("mtl-diffuse") ? new Color(params.get("mtl-diffuse"))
+					: new Color(0.8, 0.8, 0.8);
+			return new FlatMaterial(diffuse, specular, emission, ambient, shininess);
+		}
+		return null;
+	}
+
 	@Override
 	public void commit() throws ParseException {
 		switch (obj) {
@@ -43,7 +62,7 @@ public class SceneParser extends Parser {
 			scene.setCam(new Camera(eye, camDirection, screenDist, upDirection, screenWidth));
 			break;
 		case "rectangle":
-			scene.addSurface(new Rectangle(new Vector(params.get("p0")), new Vector(params.get("p1")),
+			scene.addSurface(new Rectangle(parseMaterial(), new Vector(params.get("p0")), new Vector(params.get("p1")),
 					new Vector(params.get("p2"))));
 			break;
 		case "light-directed":

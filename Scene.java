@@ -31,21 +31,24 @@ public class Scene {
 		lights.add(light);
 	}
 
-	private Color castRay(Vector origin, Vector direction) {
-		Surface closest = null;
+	private Color castRay(Ray ray) {
+		Surface closestSurface = null;
+		Ray closestIntersection = null;
 		double minDistance = Double.POSITIVE_INFINITY;
 		for (Surface surface : surfaces) {
-			Vector intersection = surface.intersect(origin, direction);
+			Ray intersection = surface.intersect(ray);
 			if (intersection != null) {
-				double distance = origin.distance(intersection);
+				double distance = ray.origin.distance(intersection.origin);
 				if (distance < minDistance) {
 					minDistance = distance;
-					closest = surface;
+					closestSurface = surface;
+					closestIntersection = intersection;
 				}
 			}
 		}
-		if (closest == null)
+		if (closestSurface == null)
 			return this.bgCol;
+		Color 
 		return new Color(0, 0, 0);
 	}
 
@@ -53,7 +56,7 @@ public class Scene {
 		Vector screenPixel = cam.screenCenter
 				.plus(cam.upDirection.mul(((height - 1) * 0.5 - y) / width * cam.screenWidth))
 				.plus(cam.leftDirection.mul(((width - 1) * 0.5 - x) / width * cam.screenWidth));
-		return castRay(cam.eye, screenPixel.minus(cam.eye));
+		return castRay(Ray.fromPoints(cam.eye, screenPixel));
 	}
 
 }

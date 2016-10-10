@@ -1,23 +1,29 @@
 
-public class Color {
-
-	public final double r, g, b;
+public class Color extends Vector {
 
 	public Color(String[] args) {
-		r = Double.parseDouble(args[0]);
-		g = Double.parseDouble(args[1]);
-		b = Double.parseDouble(args[2]);
+		super(args);
 	}
 
-	public Color(int r, int g, int b) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
+	public Color(double r, double g, double b) {
+		super(r, g, b);
+	}
+
+	public int getRed() {
+		return (int) (255 * x);
+	}
+
+	public int getGreen() {
+		return (int) (255 * y);
+	}
+
+	public int getBlue() {
+		return (int) (255 * z);
 	}
 
 	@Override
 	public String toString() {
-		return String.format("(%d, %d, %d)", r * 255, g * 255, b * 255);
+		return String.format("(%d, %d, %d)", x * 255, y * 255, z * 255);
 	}
 
 }
