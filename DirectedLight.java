@@ -2,10 +2,10 @@
 public class DirectedLight {
 
 	public final Vector direction;
-	public final Color intensity;
+	public final Vector intensity;
 
-	public DirectedLight(Vector direction, Color ïintensity) {
-		this.direction = direction;
+	public DirectedLight(Vector direction, Vector ïintensity) {
+		this.direction = direction.norm();
 		this.intensity = ïintensity;
 	}
 

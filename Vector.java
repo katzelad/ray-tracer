@@ -16,15 +16,19 @@ public class Vector {
 	}
 
 	public Vector norm() {
-		return this.div(this.length());
+		return div(length());
 	}
 
 	public Vector mul(Double factor) {
 		return new Vector(factor * x, factor * y, factor * z);
 	}
 
+	public Vector mul(Vector factor) {
+		return new Vector(factor.x * x, factor.y * y, factor.z * z);
+	}
+
 	public Vector div(double factor) {
-		return this.mul(1 / factor);
+		return mul(1 / factor);
 	}
 
 	public Vector plus(Vector other) {
@@ -33,6 +37,10 @@ public class Vector {
 
 	public Vector minus(Vector other) {
 		return new Vector(x - other.x, y - other.y, z - other.z);
+	}
+
+	public Vector minus() {
+		return mul(-1.0);
 	}
 
 	public double dot(Vector other) {
@@ -48,7 +56,19 @@ public class Vector {
 	}
 
 	public double distance(Vector other) {
-		return this.minus(other).length();
+		return minus(other).length();
+	}
+
+	public int getRed() {
+		return (int) (255 * x);
+	}
+
+	public int getGreen() {
+		return (int) (255 * y);
+	}
+
+	public int getBlue() {
+		return (int) (255 * z);
 	}
 
 	@Override

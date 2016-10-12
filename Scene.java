@@ -3,7 +3,8 @@ import java.util.List;
 
 public class Scene {
 
-	private Color bgCol;
+	private Vector bgCol;
+	private Vector ambient;
 	private Camera cam;
 	private final List<Surface> surfaces = new ArrayList<>();
 	private final List<DirectedLight> lights = new ArrayList<>();
@@ -15,8 +16,12 @@ public class Scene {
 		this.height = height;
 	}
 
-	public void setBgCol(Color bgCol) {
+	public void setBgCol(Vector bgCol) {
 		this.bgCol = bgCol;
+	}
+
+	public void setAmbientLight(Vector ambientLight) {
+		this.ambient = ambientLight;
 	}
 
 	public void setCam(Camera cam) {
@@ -31,7 +36,7 @@ public class Scene {
 		lights.add(light);
 	}
 
-	private Color castRay(Ray ray) {
+	private Vector castRay(Ray ray) {
 		Surface closestSurface = null;
 		Ray closestIntersection = null;
 		double minDistance = Double.POSITIVE_INFINITY;
@@ -48,11 +53,23 @@ public class Scene {
 		}
 		if (closestSurface == null)
 			return this.bgCol;
-		Color 
-		return new Color(0, 0, 0);
+		Material mtl = closestSurface.mtl;
+		Vector intensity = mtl.emission.plus(mtl.ambient.mul(ambient));
+		for (DirectedLight light : lights) {
+			Vector lightIntensity = light.intensity;
+			Vector lightDirection = light.direction.minus();
+			Vector lightReflection = closestIntersection.direction
+					.mul(2 * lightDirection.dot(closestIntersection.direction)).minus(lightDirection);
+			Vector diffuse = mtl.diffuse(closestIntersection.origin)
+					.mul(closestIntersection.direction.dot(lightDirection)).mul(lightIntensity);
+			Vector specular = mtl.specular.mul(Math.pow(ray.direction.minus().dot(lightReflection), mtl.shininess))
+					.mul(lightIntensity);
+			intensity = intensity.plus(diffuse).plus(specular);
+		}
+		return intensity;
 	}
 
-	public Color getColor(int x, int y) {
+	public Vector getVector(int x, int y) {
 		Vector screenPixel = cam.screenCenter
 				.plus(cam.upDirection.mul(((height - 1) * 0.5 - y) / width * cam.screenWidth))
 				.plus(cam.leftDirection.mul(((width - 1) * 0.5 - x) / width * cam.screenWidth));

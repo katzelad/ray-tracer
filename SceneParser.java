@@ -26,18 +26,18 @@ public class SceneParser extends Parser {
 
 	private Material parseMaterial() {
 		String type = params.containsKey("mtl-type") ? params.get("mtl-type")[0] : "flat";
-		Color specular = params.containsKey("mtl-specular") ? new Color(params.get("mtl-specular"))
-				: new Color(1, 1, 1);
-		Color emission = params.containsKey("mtl-emission") ? new Color(params.get("mtl-emission"))
-				: new Color(0, 0, 0);
-		Color ambient = params.containsKey("mtl-ambient") ? new Color(params.get("mtl-ambient"))
-				: new Color(0.1, 0.1, 0.1);
+		Vector specular = params.containsKey("mtl-specular") ? new Vector(params.get("mtl-specular"))
+				: new Vector(1, 1, 1);
+		Vector emission = params.containsKey("mtl-emission") ? new Vector(params.get("mtl-emission"))
+				: new Vector(0, 0, 0);
+		Vector ambient = params.containsKey("mtl-ambient") ? new Vector(params.get("mtl-ambient"))
+				: new Vector(0.1, 0.1, 0.1);
 		double shininess = params.containsKey("mtl-shininess") ? Double.parseDouble(params.get("mtl-shininess")[0])
 				: 100;
 		switch (type) {
 		case "flat":
-			Color diffuse = params.containsKey("mtl-diffuse") ? new Color(params.get("mtl-diffuse"))
-					: new Color(0.8, 0.8, 0.8);
+			Vector diffuse = params.containsKey("mtl-diffuse") ? new Vector(params.get("mtl-diffuse"))
+					: new Vector(0.8, 0.8, 0.8);
 			return new FlatMaterial(diffuse, specular, emission, ambient, shininess);
 		}
 		return null;
@@ -47,9 +47,11 @@ public class SceneParser extends Parser {
 	public void commit() throws ParseException {
 		switch (obj) {
 		case "scene":
-			Color bgCol = params.containsKey("background-col") ? new Color(params.get("background-col"))
-					: new Color(0, 0, 0);
+			Vector bgCol = params.containsKey("background-col") ? new Vector(params.get("background-col"))
+					: new Vector(0, 0, 0);
 			scene.setBgCol(bgCol);
+			scene.setAmbientLight(params.containsKey("ambient-light") ? new Vector(params.get("ambient-light"))
+					: new Vector(0, 0, 0));
 			break;
 		case "camera":
 			double screenWidth = params.containsKey("screen-width") ? Double.parseDouble(params.get("screen-width")[0])
@@ -65,9 +67,13 @@ public class SceneParser extends Parser {
 			scene.addSurface(new Rectangle(parseMaterial(), new Vector(params.get("p0")), new Vector(params.get("p1")),
 					new Vector(params.get("p2"))));
 			break;
+		case "sphere":
+			scene.addSurface(new Sphere(parseMaterial(), new Vector(params.get("center")),
+					Double.parseDouble(params.get("radius")[0])));
+			break;
 		case "light-directed":
 			Vector lightDirection = new Vector(params.get("direction"));
-			Color intensity = params.containsKey("color") ? new Color(params.get("color")) : new Color(1, 1, 1);
+			Vector intensity = params.containsKey("color") ? new Vector(params.get("color")) : new Vector(1, 1, 1);
 			scene.addLight(new DirectedLight(lightDirection, intensity));
 			break;
 		}
