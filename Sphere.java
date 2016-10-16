@@ -17,7 +17,10 @@ public class Sphere extends Surface {
 		double c = center2origin * center2origin - radius * radius;
 		if (b * b < 4 * c)
 			return null;
-		double delta = Math.sqrt(b * b - 4 * c), t1 = (delta - b) / 2, t2 = (-delta - b) / 2, t = Math.min(t1, t2);
+		double delta = Math.sqrt(b * b - 4 * c), t1 = (delta - b) / 2, t2 = (-delta - b) / 2;
+		if (t1 <= 0 && t2 <= 0)
+			return null;
+		double t = t1 <= 0 ? t2 : t2 <= 0 ? t1 : Math.min(t1, t2);
 		Vector intersection = ray.origin.plus(ray.direction.mul(t));
 		return new Ray(intersection, intersection.minus(center));
 	}

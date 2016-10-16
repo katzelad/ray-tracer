@@ -14,8 +14,10 @@ public class Rectangle extends Surface {
 
 	@Override
 	public Ray intersect(Ray ray) {
-		Vector intersection = ray.origin
-				.plus(ray.direction.mul(p[0].minus(ray.origin).dot(normal) / ray.direction.dot(normal)));
+		double t = p[0].minus(ray.origin).dot(normal) / ray.direction.dot(normal);
+		if (t <= 0)
+			return null;
+		Vector intersection = ray.origin.plus(ray.direction.mul(t));
 		double dp[] = new double[4];
 		for (int i = 0; i <= 3; i++) {
 			dp[i] = intersection.minus(p[i]).dot(n[i]);

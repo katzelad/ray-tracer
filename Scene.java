@@ -36,36 +36,28 @@ public class Scene {
 		lights.add(light);
 	}
 
+	public Iterable<Surface> getSurfaces() {
+		return surfaces;
+	}
+
 	private Vector castRay(Ray ray) {
-		Surface closestSurface = null;
-		Ray closestIntersection = null;
-		double minDistance = Double.POSITIVE_INFINITY;
-		for (Surface surface : surfaces) {
-			Ray intersection = surface.intersect(ray);
-			if (intersection != null) {
-				double distance = ray.origin.distance(intersection.origin);
-				if (distance < minDistance) {
-					minDistance = distance;
-					closestSurface = surface;
-					closestIntersection = intersection;
-				}
-			}
-		}
-		if (closestSurface == null)
+		RayIntersection ri = new RayIntersection(this, ray);
+		if (ri.surface == null)
 			return this.bgCol;
-		Material mtl = closestSurface.mtl;
+		Material mtl = ri.surface.mtl;
 		Vector intensity = mtl.emission.plus(mtl.ambient.mul(ambient));
-		for (DirectedLight light : lights) {
-			Vector lightIntensity = light.intensity;
-			Vector lightDirection = light.direction.minus();
-			Vector lightReflection = closestIntersection.direction
-					.mul(2 * lightDirection.dot(closestIntersection.direction)).minus(lightDirection);
-			Vector diffuse = mtl.diffuse(closestIntersection.origin)
-					.mul(closestIntersection.direction.dot(lightDirection)).mul(lightIntensity);
-			Vector specular = mtl.specular.mul(Math.pow(ray.direction.minus().dot(lightReflection), mtl.shininess))
-					.mul(lightIntensity);
-			intensity = intensity.plus(diffuse).plus(specular);
-		}
+		for (DirectedLight light : lights)
+			if (new RayIntersection(this, new Ray(ri.normal.origin, light.direction)).surface == null) {
+				Vector lightIntensity = light.intensity;
+				Vector lightDirection = light.direction.minus();
+				Vector lightReflection = ri.normal.direction.mul(2 * lightDirection.dot(ri.normal.direction))
+						.minus(lightDirection);
+				Vector diffuse = mtl.diffuse(ri.normal.origin).mul(ri.normal.direction.dot(lightDirection))
+						.mul(lightIntensity);
+				Vector specular = mtl.specular.mul(Math.pow(ray.direction.minus().dot(lightReflection), mtl.shininess))
+						.mul(lightIntensity);
+				intensity = intensity.plus(diffuse).plus(specular);
+			}
 		return intensity;
 	}
 
