@@ -41,13 +41,13 @@ public class Scene {
 	}
 
 	private Vector castRay(Ray ray) {
-		RayIntersection ri = new RayIntersection(this, ray);
-		if (ri.surface == null)
+		RayIntersection ri = RayIntersection.test(this, ray);
+		if (ri == null)
 			return this.bgCol;
 		Material mtl = ri.surface.mtl;
 		Vector intensity = mtl.emission.plus(mtl.ambient.mul(ambient));
 		for (DirectedLight light : lights)
-			if (new RayIntersection(this, new Ray(ri.normal.origin, light.direction)).surface == null) {
+			if (RayIntersection.test(this, new Ray(ri.normal.origin, light.direction)) == null) {
 				Vector lightIntensity = light.intensity;
 				Vector lightDirection = light.direction.minus();
 				Vector lightReflection = ri.normal.direction.mul(2 * lightDirection.dot(ri.normal.direction))

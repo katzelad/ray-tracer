@@ -208,8 +208,8 @@ public class RayTracer {
 		});
 
 		shell.open();
-		Point l = shell.getLocation();
-		editShell.setLocation(new Point(l.x + 650, l.y));
+		org.eclipse.swt.graphics.Point l = shell.getLocation();
+		editShell.setLocation(new org.eclipse.swt.graphics.Point(l.x + 650, l.y));
 		editShell.open();
 
 		while (!shell.isDisposed()) {

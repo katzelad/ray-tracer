@@ -5,7 +5,13 @@ public class RayIntersection {
 	public final Ray normal;
 	public final double distance;
 
-	public RayIntersection(Scene scene, Ray ray) {
+	private RayIntersection(Surface surface, Ray normal, double distance) {
+		this.surface = surface;
+		this.normal = normal;
+		this.distance = distance;
+	}
+
+	public static RayIntersection test(Scene scene, Ray ray) {
 		Surface closestSurface = null;
 		Ray closestIntersection = null;
 		double minDistance = Double.POSITIVE_INFINITY;
@@ -20,9 +26,7 @@ public class RayIntersection {
 				}
 			}
 		}
-		this.surface = closestSurface;
-		this.normal = closestIntersection;
-		this.distance = minDistance;
+		return closestSurface == null ? null : new RayIntersection(closestSurface, closestIntersection, minDistance);
 	}
 
 }
