@@ -44,7 +44,7 @@ public class RayTracer {
 		for (int y = 0; y < dat.height; ++y) {
 			for (int x = 0; x < dat.width; ++x) {
 				// TO-ADD: get the color for this pixel (shoot rays etc')
-				Vector mycol = m_scene.getVector(x, y);
+				Vector mycol = m_scene.getColor(x, y);
 
 				// TO-ADD: set the image color for this pixel.
 				int r = mycol.getRed();
@@ -208,8 +208,8 @@ public class RayTracer {
 		});
 
 		shell.open();
-		org.eclipse.swt.graphics.Point l = shell.getLocation();
-		editShell.setLocation(new org.eclipse.swt.graphics.Point(l.x + 650, l.y));
+		Point l = shell.getLocation();
+		editShell.setLocation(new Point(l.x + 650, l.y));
 		editShell.open();
 
 		while (!shell.isDisposed()) {

@@ -60,15 +60,15 @@ public class Vector {
 	}
 
 	public int getRed() {
-		return (int) (255 * x);
+		return x > 1 ? 255 : (int) (255 * x);
 	}
 
 	public int getGreen() {
-		return (int) (255 * y);
+		return y > 1 ? 255 : (int) (255 * y);
 	}
 
 	public int getBlue() {
-		return (int) (255 * z);
+		return z > 1 ? 255 : (int) (255 * z);
 	}
 
 	@Override

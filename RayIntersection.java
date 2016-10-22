@@ -26,7 +26,11 @@ public class RayIntersection {
 				}
 			}
 		}
-		return closestSurface == null ? null : new RayIntersection(closestSurface, closestIntersection, minDistance);
+		return closestSurface == null ? null
+				: new RayIntersection(closestSurface,
+						new Ray(closestIntersection.origin.plus(closestIntersection.direction.mul(Surface.EPSILON)),
+								closestIntersection.direction),
+						minDistance);
 	}
 
 }
