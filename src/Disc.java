@@ -1,4 +1,3 @@
-import javafx.geometry.Point2D;
 
 public class Disc extends Surface {
 
@@ -27,11 +26,11 @@ public class Disc extends Surface {
 	}
 
 	@Override
-	public Point2D flatten(Vector point) {
+	public Point flatten(Vector point) {
 		double angle = Math.acos(up.dot(point.minus(center).norm()));
 		if (left.dot(point) < left.dot(center))
 			angle *= -1;
-		return new Point2D(point.distance(center) / radius, (angle / Math.PI + 1) / 2);
+		return new Point(point.distance(center) / radius, (angle / Math.PI + 1) / 2);
 	}
 
 }

@@ -1,4 +1,3 @@
-import javafx.geometry.Point2D;
 
 public class Cylinder extends Surface {
 
@@ -44,12 +43,12 @@ public class Cylinder extends Surface {
 	}
 
 	@Override
-	public Point2D flatten(Vector point) {
+	public Point flatten(Vector point) {
 		double t = point.minus(start).dot(direction);
 		double angle = Math.acos(normal.dot(point.minus(start.plus(direction.mul(t))).norm()));
 		if (halfNormal.dot(point) < halfNormal.dot(start))
 			angle *= -1;
-		return new Point2D(t / length, (angle / Math.PI + 1) / 2);
+		return new Point(t / length, (angle / Math.PI + 1) / 2);
 	}
 
 }

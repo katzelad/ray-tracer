@@ -1,6 +1,5 @@
 import java.util.Arrays;
 
-import javafx.geometry.Point2D;
 
 public class Rectangle extends Surface {
 
@@ -34,14 +33,14 @@ public class Rectangle extends Surface {
 	}
 
 	@Override
-	public Point2D flatten(Vector point) {
+	public Point flatten(Vector point) {
 		double cos_p0 = s[0].norm().dot(s[3].norm());
 		double ratio = point.distance(p[0]) / Math.sqrt(1 - cos_p0 * cos_p0);
 		double cos_point_p0_p1 = point.minus(p[0]).norm().dot(s[0].norm());
 		double cos_p0_point_p1 = p[0].minus(point).norm().dot(s[3].norm());
 		double x = ratio * Math.sqrt(1 - cos_p0_point_p1 * cos_p0_point_p1) / width;
 		double y = ratio * Math.sqrt(1 - cos_point_p0_p1 * cos_point_p0_p1) / height;
-		return new Point2D(x, y);
+		return new Point(x, y);
 	}
 
 	@Override

@@ -1,4 +1,3 @@
-import javafx.geometry.Point2D;
 
 public class FlatMaterial extends Material {
 
@@ -11,7 +10,7 @@ public class FlatMaterial extends Material {
 	}
 
 	@Override
-	public Vector diffuse(Point2D point) {
+	public Vector diffuse(Point point) {
 		return diffuse;
 	}
 

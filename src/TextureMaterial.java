@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import javafx.geometry.Point2D;
 
 public class TextureMaterial extends Material {
 
@@ -17,8 +16,8 @@ public class TextureMaterial extends Material {
 	}
 
 	@Override
-	public Vector diffuse(Point2D point) {
-		Color pixel = new Color(texture.getRGB((int) (point.getX() * width), (int) (point.getY() * height)));
+	public Vector diffuse(Point point) {
+		Color pixel = new Color(texture.getRGB((int) (point.x * width), (int) (point.y * height)));
 		return new Vector(pixel.getRed(), pixel.getGreen(), pixel.getBlue()).div(255);
 	}
 

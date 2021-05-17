@@ -1,4 +1,3 @@
-import javafx.geometry.Point2D;
 
 public abstract class Material {
 
@@ -13,6 +12,6 @@ public abstract class Material {
 		this.reflectance = reflectance;
 	}
 
-	public abstract Vector diffuse(Point2D point);
+	public abstract Vector diffuse(Point point);
 
 }

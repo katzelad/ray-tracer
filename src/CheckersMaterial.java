@@ -1,4 +1,3 @@
-import javafx.geometry.Point2D;
 
 public class CheckersMaterial extends Material {
 
@@ -14,8 +13,8 @@ public class CheckersMaterial extends Material {
 	}
 
 	@Override
-	public Vector diffuse(Point2D point) {
-		return ((int) (point.getX() / size) + (int) (point.getY() / size) & 1) == 0 ? diffuse2 : diffuse1;
+	public Vector diffuse(Point point) {
+		return ((int) (point.x / size) + (int) (point.y / size) & 1) == 0 ? diffuse2 : diffuse1;
 	}
 
 }

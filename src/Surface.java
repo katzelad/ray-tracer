@@ -1,4 +1,3 @@
-import javafx.geometry.Point2D;
 
 public abstract class Surface {
 	
@@ -12,6 +11,6 @@ public abstract class Surface {
 
 	public abstract Ray intersect(Ray ray);
 
-	public abstract Point2D flatten(Vector point);
+	public abstract Point flatten(Vector point);
 
 }

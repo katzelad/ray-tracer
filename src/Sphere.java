@@ -1,4 +1,3 @@
-import javafx.geometry.Point2D;
 
 public class Sphere extends Surface {
 
@@ -27,9 +26,9 @@ public class Sphere extends Surface {
 	}
 
 	@Override
-	public Point2D flatten(Vector point) {
+	public Point flatten(Vector point) {
 		Vector coords = point.minus(center);
-		return new Point2D((Math.atan2(coords.y, coords.x) / Math.PI + 1) / 2, Math.acos(coords.z / radius) / Math.PI);
+		return new Point((Math.atan2(coords.y, coords.x) / Math.PI + 1) / 2, Math.acos(coords.z / radius) / Math.PI);
 	}
 
 }
